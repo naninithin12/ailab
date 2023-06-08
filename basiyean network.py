@@ -12,10 +12,8 @@ prize_cpd = TabularCPD('Prize', 3, [[0, 0, 1, 0, 0, 1, 0, 1, 0],
                                     [1, 0, 0, 0, 1, 0, 0, 0, 1],
                                     [0, 1, 0, 1, 0, 0, 1, 0, 0]],
                        evidence=['Door', 'Choice'], evidence_card=[3, 3])
-print(prize_cpd)
 monty_cpd = TabularCPD('Monty', 3, [[0, 1, 0],[0.33, 0, 0.67],[0.67, 0, 0.33]],
                        evidence=['Prize'], evidence_card=[3])
-print(monty_cpd)
 # Add the CPDs to the model
 model.add_cpds(door_cpd, choice_cpd, prize_cpd, monty_cpd)
 
@@ -32,3 +30,21 @@ print("Probability of winning if sticking to the original choice:", stick_probab
 # Calculate the probability of winning if the contestant switches their choice
 switch_probability = inference.query(['Prize'], evidence={'Choice': 2}, show_progress=False).normalize(inplace=False)#['Prize'].values[2]
 print("Probability of winning if switching the choice:", switch_probability)
+'''Probability of winning if sticking to the original choice: +----------+--------------+
+| Prize    |   phi(Prize) |
++==========+==============+
+| Prize(0) |       0.3333 |
++----------+--------------+
+| Prize(1) |       0.3333 |
++----------+--------------+
+| Prize(2) |       0.3333 |
++----------+--------------+
+Probability of winning if switching the choice: +----------+--------------+
+| Prize    |   phi(Prize) |
++==========+==============+
+| Prize(0) |       0.6667 |
++----------+--------------+
+| Prize(1) |       0.3333 |
++----------+--------------+
+| Prize(2) |       0.0000 |
++----------+--------------+'''
